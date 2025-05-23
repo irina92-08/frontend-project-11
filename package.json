@@ -1,0 +1,26 @@
+{
+  "name": "@hexlet/code",
+  "version": "0.0.0",
+  "private": true,
+  "description": "[![Actions Status](https://github.com/irina92-08/frontend-project-11/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/irina92-08/frontend-project-11/actions)",
+  "homepage": "https://github.com/irina92-08/frontend-project-11#readme",
+  "bugs": {
+    "url": "https://github.com/irina92-08/frontend-project-11/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irina92-08/frontend-project-11.git"
+  },
+  "license": "ISC",
+  "author": "Irina Bu",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
