@@ -29,5 +29,12 @@ jobs:
       - name: Build production version
         run: make build
 
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v30
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          build-env: NODE_ENV=production
+          working-directory: src/dist
 
   
