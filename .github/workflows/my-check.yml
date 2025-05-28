@@ -35,7 +35,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID}}
-          build-env: NODE_ENV=production
+          vercel-args: '--prod'
           working-directory: src/dist
 
   
