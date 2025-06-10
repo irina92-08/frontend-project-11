@@ -4,7 +4,7 @@ import { runApp } from './index.js'
 import view from './view.js'
 import i18next from 'i18next'
 
-runApp();
+runApp()
 
 const elementsForm = {
   form: document.querySelector('form'),
@@ -37,12 +37,12 @@ elementsForm.form.addEventListener('submit', (e) => {
   const formData = new FormData(e.target)
   const url = formData.get('url').trim()
 
-fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
-  .then(response => {
-    if (response.ok) return response.json()
-    throw new Error('Network response was not ok.')
-  })
-  .then(data => console.log(data.contents));
+  fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
+    .then((response) => {
+      if (response.ok) return response.json()
+      throw new Error('Network response was not ok.')
+    })
+    .then(data => console.log(data.contents))
 
   elementsForm.input.value = ''
   const currentFeeds = state.feeds.map(feed => feed)
