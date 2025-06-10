@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import * as yup from 'yup'
 
 export const runApp = async () => {
   await i18next.init({
@@ -7,10 +8,17 @@ export const runApp = async () => {
     resources: {
       ru: {
         translation: {
-          err1: 'Сcылка должна быть валидным URL',
-          err2: 'Rss уже существует',
+          errors: {
+            invalidUrl: 'Сcылка должна быть валидным URL',
+            urlExists: 'Rss уже существует',
+          },
         },
       },
+    },
+  })
+  yup.setLocale({
+    string: {
+      url: () => i18next.t('errors.invalidUrl'),
     },
   })
 }

@@ -15,8 +15,8 @@ const elementsForm = {
 
 const validateUrl = (url, feeds) => {
   const schema = yup.string()
-    .url(i18next.t('err1'))
-    .notOneOf(feeds, i18next.t('err2'))
+    .url()
+    .notOneOf(feeds, () => i18next.t('errors.urlExists'))
   return schema.validate(url)
 }
 
