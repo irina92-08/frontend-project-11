@@ -1,7 +1,10 @@
 import 'bootstrap/scss/bootstrap.scss'
 import * as yup from 'yup'
-
+import { runApp } from './index.js'
 import view from './view.js'
+import i18next from 'i18next'
+
+runApp();
 
 const elementsForm = {
   form: document.querySelector('form'),
@@ -12,8 +15,8 @@ const elementsForm = {
 
 const validateUrl = (url, feeds) => {
   const schema = yup.string()
-    .url('ССылка должна быть валидным URL')
-    .notOneOf(feeds, 'Rss уже существует')
+    .url(i18next.t('err1'))
+    .notOneOf(feeds, i18next.t('err2'))
   return schema.validate(url)
 }
 
@@ -33,6 +36,13 @@ elementsForm.form.addEventListener('submit', (e) => {
   e.preventDefault()
   const formData = new FormData(e.target)
   const url = formData.get('url').trim()
+
+fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
+  .then(response => {
+    if (response.ok) return response.json()
+    throw new Error('Network response was not ok.')
+  })
+  .then(data => console.log(data.contents));
 
   elementsForm.input.value = ''
   const currentFeeds = state.feeds.map(feed => feed)
