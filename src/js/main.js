@@ -39,12 +39,10 @@ elementsForm.form.addEventListener('submit', (e) => {
   const formData = new FormData(e.target)
   const url = formData.get('url').trim()
 
-  
   getRss(url)
-  .then((data) => parserRss(data))
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err))
-  
+    .then(data => parserRss(data))
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
 
   elementsForm.input.value = ''
   const currentFeeds = state.feeds.map(feed => feed)
