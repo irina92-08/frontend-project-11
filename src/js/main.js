@@ -3,6 +3,8 @@ import * as yup from 'yup'
 import { runApp } from './index.js'
 import view from './view.js'
 import i18next from 'i18next'
+import { parserRss } from './parser.js'
+import { getRss } from './api.js'
 
 runApp()
 
@@ -37,12 +39,12 @@ elementsForm.form.addEventListener('submit', (e) => {
   const formData = new FormData(e.target)
   const url = formData.get('url').trim()
 
-  fetch(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}`)
-    .then((response) => {
-      if (response.ok) return response.json()
-      throw new Error('Network response was not ok.')
-    })
-    .then(data => console.log(data.contents))
+  
+  getRss(url)
+  .then((data) => parserRss(data))
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err))
+  
 
   elementsForm.input.value = ''
   const currentFeeds = state.feeds.map(feed => feed)
