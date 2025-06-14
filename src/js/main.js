@@ -29,8 +29,10 @@ const state = {
     button: document.querySelector('form button'),
     p: document.querySelector('.feedback'),
   },
-  stateInvalid: true,
-
+  elementFeeds: document.querySelector('.feeds'),
+  elementPosts: document.querySelector('.posts'),
+  stateValid: true,
+   
   feeds: [],
 }
 
@@ -40,12 +42,17 @@ elementsForm.form.addEventListener('submit', (e) => {
   const url = formData.get('url').trim()
 
   getRss(url)
+    
     .then(data => parserRss(data))
-    .then(data => console.log(data))
+    .then(data => {
+      console.log(data)
+      
+      elementsForm.input.value = ''
+      
+      view(validateUrl, data, state)
+    })
+    
     .catch(err => console.log(err))
 
-  elementsForm.input.value = ''
-  const currentFeeds = state.feeds.map(feed => feed)
-
-  view(validateUrl, url, currentFeeds, state)
+  
 })

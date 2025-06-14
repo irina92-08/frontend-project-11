@@ -12,6 +12,10 @@ export const runApp = async () => {
             invalidUrl: 'Сcылка должна быть валидным URL',
             urlExists: 'Rss уже существует',
           },
+          success: {
+            validUrl: 'RSS успешно загружен', 
+          },
+
         },
       },
     },
