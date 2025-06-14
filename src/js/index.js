@@ -15,6 +15,11 @@ export const runApp = async () => {
           success: {
             validUrl: 'RSS успешно загружен',
           },
+          buttons: {
+            buttonPost: 'Просмотр',
+            buttonModal: 'Читать полностью',
+            buttonClose: 'Закрыть'
+          }
 
         },
       },

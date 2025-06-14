@@ -1,15 +1,29 @@
 import onChange from 'on-change'
 import i18next from 'i18next'
 
-const displayingFeeds = (feeds, elementFeeds) => {
+const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
+  //секция фидов создание
+  elementFeeds.innerHTML = ''
   const divFeeds = document.createElement('div')
+  divFeeds.classList.add('card', 'border-0')
   divFeeds.innerHTML = '<div class="card-body"><h2 class="card-title h4">Фиды</h2></div>'
   elementFeeds.append(divFeeds)
+  const listFeeds = document.createElement('ul')
+  listFeeds.classList.add('list-group', 'border-0', 'rounded-0')
+  elementFeeds.append(listFeeds)
+
+  //секция постов создание
+  elementPosts.innerHTML = ''
+  const divPosts = document.createElement('div')
+  divPosts.classList.add('card', 'border-0')
+  divPosts.innerHTML = '<div class="card-body"><h2 class="card-title h4">Посты</h2></div>'
+  elementPosts.append(divPosts)
+  const listPosts = document.createElement('ul')
+  listPosts.classList.add('list-group', 'border-0', 'rounded-0')
+  elementPosts.append(listPosts)
 
   feeds.forEach ((feed) => {
-    const listFeeds = document.createElement('ul')
-    listFeeds.classList.add('list-group', 'border-0', 'rounded-0')
-
+    //фиды
     const itemListFeed = document.createElement('li')
     itemListFeed.classList.add('list-group-item', 'border-0', 'border-end-0')
     listFeeds.append(itemListFeed)
@@ -24,8 +38,32 @@ const displayingFeeds = (feeds, elementFeeds) => {
     descriptionFeed.textContent = `${feed.description}`
     itemListFeed.append(descriptionFeed)
 
-    elementFeeds.append(listFeeds)
+    //посты
+    feed.items.forEach((item) => {
+      const itemListPost = document.createElement('li')
+      itemListPost.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0')
+      listPosts.append(itemListPost)
+
+      const titlePost = document.createElement('a')
+      titlePost.classList.add('fm-bold')
+      titlePost.textContent = `${item.titleItem}`
+      console.log(item.titleItem)
+      itemListPost.append(titlePost)
+
+      const ButtonPost = document.createElement('button')
+      ButtonPost.classList.add('btn', 'btn-outline-primary', 'btn-sm')
+      ButtonPost.textContent = i18next.t('buttons.buttonPost')
+      
+      itemListPost.append(ButtonPost)
+    })
+    
+    
   })
+
+  
+
+  
+
 }
 
 const view = (validate, feed, state) => {
@@ -36,7 +74,8 @@ const view = (validate, feed, state) => {
       state.elementsForm.p.classList.add('text-success')
       state.elementsForm.p.textContent = i18next.t('success.validUrl')
 
-      displayingFeeds(state.feeds, state.elementFeeds)
+      displayingFeeds(state.feeds, state.elementFeeds, state.elementPosts)
+      
     }
     else {
       state.elementsForm.input.classList.add('is-invalid')
