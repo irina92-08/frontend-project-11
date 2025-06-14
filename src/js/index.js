@@ -18,8 +18,8 @@ export const runApp = async () => {
           buttons: {
             buttonPost: 'Просмотр',
             buttonModal: 'Читать полностью',
-            buttonClose: 'Закрыть'
-          }
+            buttonClose: 'Закрыть',
+          },
 
         },
       },
