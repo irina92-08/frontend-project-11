@@ -13,7 +13,7 @@ export const runApp = async () => {
             urlExists: 'Rss уже существует',
           },
           success: {
-            validUrl: 'RSS успешно загружен', 
+            validUrl: 'RSS успешно загружен',
           },
 
         },
