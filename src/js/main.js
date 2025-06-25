@@ -49,7 +49,7 @@ elementsForm.form.addEventListener('submit', (e) => {
 
       elementsForm.input.value = ''
 
-      view(validateUrl, data, state)
+      view(validateUrl, data, state, url)
     })
 
     .catch(err => console.log(err))
