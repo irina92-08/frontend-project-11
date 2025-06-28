@@ -3,11 +3,12 @@ import i18next from 'i18next'
 import { getRss } from './api.js'
 import { parserRss } from './parser.js'
 
-const displayingPosts = (item) => {
+// добавление постов или нового поста
+const displayingNewPosts = (item, element = null) => {
   const listPosts = document.querySelector('ul')
   const itemListPost = document.createElement('li')
   itemListPost.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0')
-  listPosts.prepend(itemListPost)
+  element === 'new' ? listPosts.prepend(itemListPost) : listPosts.append(itemListPost)
 
   const titlePost = document.createElement('a')
   titlePost.classList.add('fm-bold')
@@ -60,24 +61,7 @@ const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
     itemListFeed.append(descriptionFeed)
 
     // посты
-
-    feed.items.forEach((item) => {
-      const itemListPost = document.createElement('li')
-      itemListPost.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0')
-      listPosts.append(itemListPost)
-
-      const titlePost = document.createElement('a')
-      titlePost.classList.add('fm-bold')
-      titlePost.textContent = `${item.titleItem}`
-      console.log(item.titleItem)
-      itemListPost.append(titlePost)
-
-      const ButtonPost = document.createElement('button')
-      ButtonPost.classList.add('btn', 'btn-outline-primary', 'btn-sm')
-      ButtonPost.textContent = i18next.t('buttons.buttonPost')
-
-      itemListPost.append(ButtonPost)
-    },
+    feed.items.forEach(item => displayingNewPosts(item),
     )
   })
 }
@@ -87,10 +71,8 @@ const startTime = (url, currentPosts) => {
     .then(({ items }) => {
       items.forEach((item) => {
         const newPost = currentPosts.filter(post => post.link === item.link)
-        console.log(item.link, newPost.length)
         if (newPost.length === 0) {
-          console.log(11111111111111)
-          displayingPosts(item)
+          displayingNewPosts(item, 'new')
         }
       })
       setTimeout(() => startTime(url, items), 5000)

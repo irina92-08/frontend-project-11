@@ -12,6 +12,5 @@ export const parserRss = ([contents, url]) => {
     const link = item.querySelector('link').textContent
     return { titleItem, descItem, link }
   })
-  console.log({ url, title, description, items })
   return { url, title, description, items }
 }
