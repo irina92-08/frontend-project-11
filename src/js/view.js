@@ -3,6 +3,39 @@ import i18next from 'i18next'
 import { getRss } from './api.js'
 import { parserRss } from './parser.js'
 
+const modalOpen = (element) => {
+  console.log(element)
+  const body = document.querySelector('body')
+  const modal = document.querySelector('#modal')
+  const modalTitle = document.querySelector('.modal-title')
+  const modalBody = document.querySelector('.modal-body')
+
+  modalTitle.textContent = element.titleItem
+  modalBody.textContent = element.descItem
+  body.classList.add('modal-open')
+  modal.classList.add('show')
+  modal.removeAttribute('aria-hidden')
+  modal.setAttribute('aria-modal', 'true')
+  modal.setAttribute('style', 'display:block')
+
+  const close = () => {
+    modal.removeAttribute('style', 'aria-modal')
+    modal.setAttribute('aria-hidden', 'true')
+    body.classList.remove('modal-open')
+    modal.classList.remove('show')
+  }
+
+  const modalCross = modal.querySelector('button')
+  modalCross.addEventListener('click', () => close())
+
+  const modalFooter = document.querySelector('.modal-footer')
+  const buttonClose = modalFooter.querySelector('button')
+  buttonClose.addEventListener('click', () => close())
+
+  const modalLink = modalFooter.querySelector('a')
+  modalLink.setAttribute('href', `${element.link}`)
+}
+
 // добавление постов или нового поста
 const displayingNewPosts = (item, element = null) => {
   const listPosts = document.querySelector('ul')
@@ -11,16 +44,18 @@ const displayingNewPosts = (item, element = null) => {
   element === 'new' ? listPosts.prepend(itemListPost) : listPosts.append(itemListPost)
 
   const titlePost = document.createElement('a')
+  titlePost.setAttribute('href', `${item.link}`)
   titlePost.classList.add('fm-bold')
   titlePost.textContent = `${item.titleItem}`
   console.log(item.titleItem)
   itemListPost.append(titlePost)
 
-  const ButtonPost = document.createElement('button')
-  ButtonPost.classList.add('btn', 'btn-outline-primary', 'btn-sm')
-  ButtonPost.textContent = i18next.t('buttons.buttonPost')
+  const buttonPost = document.createElement('button')
+  buttonPost.classList.add('btn', 'btn-outline-primary', 'btn-sm')
+  buttonPost.textContent = i18next.t('buttons.buttonPost')
+  itemListPost.append(buttonPost)
 
-  itemListPost.append(ButtonPost)
+  buttonPost.addEventListener('click', e => modalOpen(item))
 }
 
 const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
@@ -102,7 +137,7 @@ const view = (validate, feed, state, urlFeed) => {
   validate(url, currentFeed)
     .then(() => {
       console.log('ok')
-      state.feeds.push(feed)
+      watchedState.feeds.push(feed)
       watchedState.statevalid = true
     })
     .catch((err) => {
