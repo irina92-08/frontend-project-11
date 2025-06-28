@@ -1,4 +1,4 @@
-//import _ from 'lodash';
+// import _ from 'lodash';
 
 export const parserRss = ([contents, url]) => {
   const parserDom = new DOMParser()
@@ -9,8 +9,8 @@ export const parserRss = ([contents, url]) => {
   const items = Array.from(doc.querySelectorAll('item')).map((item) => {
     const titleItem = item.querySelector('title').textContent
     const descItem = item.querySelector('description').textContent
-    const link = item.querySelector('link').textContent;
-    return {  titleItem, descItem, link }
+    const link = item.querySelector('link').textContent
+    return { titleItem, descItem, link }
   })
   console.log({ url, title, description, items })
   return { url, title, description, items }
