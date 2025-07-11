@@ -2,6 +2,7 @@ import onChange from 'on-change'
 import i18next from 'i18next'
 import { getRss } from './api.js'
 import { parserRss } from './parser.js'
+import { errorsApp } from './ errors.js'
 
 const modalOpen = (element) => {
   console.log(element)
@@ -141,8 +142,7 @@ const view = (validate, feed, state, urlFeed) => {
       watchedState.statevalid = true
     })
     .catch((err) => {
-      watchedState.statevalid = false
-      state.elementsForm.p.textContent = err.message
+      throw errorsApp(i18next.t('errors.invalidUrl'), state)
     })
 }
 export default view
