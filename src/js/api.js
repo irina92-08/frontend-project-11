@@ -8,6 +8,6 @@ export const getRss = (url, state) => {
     .then(response => response.data.contents)
     .then(data => [data, url])
     .catch((err) => {
-      throw errorsApp(i18next.t('errors.errorNetwork'),state)
+      throw errorsApp(i18next.t('errors.errorNetwork'), state)
     })
 }
