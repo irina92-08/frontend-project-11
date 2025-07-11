@@ -1,7 +1,9 @@
 // import _ from 'lodash';
+import { errorsApp } from "./ errors.js"
+import i18next from 'i18next'
 
-export const parserRss = ([contents, url]) => {
-  const parserDom = new DOMParser()
+export const parserRss = ([contents, url],state) => {
+  try {const parserDom = new DOMParser()
   const doc = parserDom.parseFromString(contents, 'text/xml')
   if (doc.querySelector('body')) return { url }
   const title = doc.querySelector('channel title').textContent
@@ -12,5 +14,8 @@ export const parserRss = ([contents, url]) => {
     const link = item.querySelector('link').textContent
     return { titleItem, descItem, link }
   })
-  return { url, title, description, items }
+  return { url, title, description, items }}
+  catch{
+    throw errorsApp(i18next.t('errors.notRss'),state)
+  }
 }

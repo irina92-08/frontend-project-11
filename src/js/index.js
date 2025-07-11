@@ -10,7 +10,10 @@ export const runApp = async () => {
         translation: {
           errors: {
             invalidUrl: 'Сcылка должна быть валидным URL',
-            urlExists: 'Rss уже существует',
+            urlExists: 'RSS уже существует',
+            urlNull: 'Не должно быть пустым',
+            notRss: 'Ресурс не содержит валидный RSS',
+            errorNetwork: 'Ошибка сети',
           },
           success: {
             validUrl: 'RSS успешно загружен',

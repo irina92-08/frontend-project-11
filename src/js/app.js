@@ -3,6 +3,7 @@ import view from './view.js'
 import i18next from 'i18next'
 import { parserRss } from './parser.js'
 import { getRss } from './api.js'
+import { errorsApp } from './ errors.js'
 
 export const app = () => {
   const validateUrl = (url, feeds) => {
@@ -30,14 +31,15 @@ export const app = () => {
     e.preventDefault()
     const formData = new FormData(e.target)
     const url = formData.get('url').trim()
+    if(!url) {throw errorsApp(i18next.t('errors.urlNull'),state)}
 
-    getRss(url)
-      .then(data => parserRss(data))
+    getRss(url, state)
+      .then(data => parserRss(data, state))
       .then((data) => {
         console.log(data)
         state.elementsForm.input.value = ''
         view(validateUrl, data, state, url)
       })
-      .catch(err => console.log(err))
+      .catch((err ) => console.log(err))
   })
 }
