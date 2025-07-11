@@ -143,11 +143,9 @@ const view = (validate, feed, state, urlFeed) => {
     })
     .catch((err) => {
       if (err.message === i18next.t('errors.urlExists')) {
-        throw errorsApp(i18next.t('errors.urlExists'), state)
+        return errorsApp(i18next.t('errors.urlExists'), state)
       }
-      else {
         throw errorsApp(i18next.t('errors.invalidUrl'), state)
-      }
-    })
+      })
 }
 export default view

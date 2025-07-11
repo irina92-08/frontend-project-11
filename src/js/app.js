@@ -31,9 +31,8 @@ export const app = () => {
     e.preventDefault()
     const formData = new FormData(e.target)
     const url = formData.get('url').trim()
-    if (!url) {
-      throw errorsApp(i18next.t('errors.urlNull'), state)
-    }
+    if (!url) { 
+      throw errorsApp(i18next.t('errors.urlNull'), state) }
 
     getRss(url, state)
       .then(data => parserRss(data, state))
