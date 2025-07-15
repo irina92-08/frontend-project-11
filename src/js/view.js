@@ -46,7 +46,7 @@ const displayingNewPosts = (item, element = null) => {
 
   const titlePost = document.createElement('a')
   titlePost.setAttribute('href', `${item.link}`)
-  titlePost.classList.add('fm-bold')
+  titlePost.classList.add('fw-bold')
   titlePost.textContent = `${item.titleItem}`
   console.log(item.titleItem)
   itemListPost.append(titlePost)
