@@ -9,7 +9,7 @@ export const runApp = async () => {
       ru: {
         translation: {
           errors: {
-            invalidUrl: 'Сcылка должна быть валидным URL',
+            invalidUrl: 'Ссылка должна быть валидным URL',
             urlExists: 'RSS уже существует',
             urlNull: 'Не должно быть пустым',
             notRss: 'Ресурс не содержит валидный RSS',
