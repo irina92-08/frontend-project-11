@@ -55,7 +55,7 @@ const displayingNewPosts = (item, element = null) => {
   buttonPost.textContent = i18next.t('buttons.buttonPost')
   itemListPost.append(buttonPost)
 
-  buttonPost.addEventListener('click', (e) => {
+  buttonPost.addEventListener('click', () => {
     titlePost.classList.remove('fw-bold')
     titlePost.classList.add('fw-normal', 'link-secondary')
     modalOpen(item)
