@@ -2,7 +2,6 @@ import onChange from 'on-change'
 import i18next from 'i18next'
 import { getRss } from './api.js'
 import { parserRss } from './parser.js'
-import { errorsApp } from './ errors.js'
 
 const modalOpen = (element) => {
   console.log(element)
