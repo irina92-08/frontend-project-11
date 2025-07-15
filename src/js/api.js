@@ -7,7 +7,7 @@ export const getRss = (url, state) => {
   return axios.get(proxyUrl)
     .then(response => response.data.contents)
     .then(data => [data, url])
-    .catch((err) => {
+    .catch(() => {
       throw errorsApp(i18next.t('errors.errorNetwork'), state)
     })
 }
