@@ -105,7 +105,7 @@ const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
     )
   })
 }
-const startTime = (url, currentPosts) => {
+const startTime = (url, currentPosts, state) => {
   getRss(url)
     .then(data => parserRss(data))
     .then(({ items }) => {
@@ -120,7 +120,7 @@ const startTime = (url, currentPosts) => {
       console.log(err)
       throw errorsApp(i18next.t('errors.errorNetwork'), state)
     })
-    .finally(() => {
+    .finally(({ items }) => {
       setTimeout(() => startTime(url, items), 5000)
     })
 }
@@ -134,7 +134,7 @@ const view = (validate, feed, state, urlFeed) => {
       state.elementsForm.p.textContent = i18next.t('success.validUrl')
 
       displayingFeeds(state.feeds, state.elementFeeds, state.elementPosts)
-      startTime(urlFeed, feed.items)
+      startTime(urlFeed, feed.items, state)
     }
     else {
       state.elementsForm.input.classList.add('is-invalid')
