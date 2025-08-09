@@ -3,7 +3,7 @@ import view from './view.js'
 import i18next from 'i18next'
 import { parserRss } from './parser.js'
 import { getRss } from './api.js'
-import { errorsApp } from './ errors.js'
+import { errorsApp } from './errors.js'
 
 export const app = () => {
   const validateUrl = (url, feeds) => {

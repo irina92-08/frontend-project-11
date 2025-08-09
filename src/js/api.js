@@ -1,6 +1,6 @@
 import axios from 'axios'
 import i18next from 'i18next'
-import { errorsApp } from './ errors.js'
+import { errorsApp } from './errors.js'
 
 const getProxyUrl = (url) => {
   const baseUrl = 'https://allorigins.hexlet.app/get'
@@ -13,7 +13,8 @@ const getProxyUrl = (url) => {
 }
 
 export const getRss = (url, state) => {
-  return axios.get(getProxyUrl(url))
+  const timeout = 10000;
+  return axios.get(getProxyUrl(url), {timeout})
     .then(response => response.data.contents)
     .then(data => [data, url])
     .catch(() => {

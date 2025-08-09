@@ -1,17 +1,24 @@
 // import _ from 'lodash';
-import { errorsApp } from './ errors.js'
+import { errorsApp } from './errors.js'
 import i18next from 'i18next'
 
 export const parserRss = ([contents, url], state) => {
   try {
-    console.log(1)
+   
     const parserDom = new DOMParser()
     const doc = parserDom.parseFromString(contents, 'text/xml')
     const parserError = doc.querySelector('parsererror')
+     console.log(doc)
     if (parserError) {
-      throw new Error('notRss')
+      console.log(parserError)
+      if(doc.body?.querySelector('parsererror')) {
+        console.log(1)
+        throw new Error('invalidUrl')
+      } else {
+        throw new Error('notRss')
+      }
     }
-    // if (doc.querySelector('body')) return { url }
+    
     const title = doc.querySelector('channel title').textContent
     const description = doc.querySelector('channel description').textContent
     const items = Array.from(doc.querySelectorAll('item')).map((item) => {
@@ -22,9 +29,8 @@ export const parserRss = ([contents, url], state) => {
     })
     return { url, title, description, items }
   }
-  catch (e) {
-    const error = e.message === 'notRss' ? 'errors.notRss' : 'errors.invalidUrl'
-    console.log(error)
-    throw errorsApp(i18next.t(error), state)
+  catch(e) {
+    console.log(e.message)
+      throw errorsApp(i18next.t(`errors.${e.message}`), state)
   }
 }
