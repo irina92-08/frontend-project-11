@@ -118,6 +118,7 @@ const startTime = (url, currentPosts) => {
     })
 }
 const view = (validate, feed, state, urlFeed) => {
+  state.elementsForm.button.classList.remove('disabled')
   const watchedState = onChange(state, (path, value) => {
     if (value) {
       state.elementsForm.input.classList.remove('is-invalid')

@@ -29,6 +29,7 @@ export const app = () => {
 
   state.elementsForm.form.addEventListener('submit', (e) => {
     e.preventDefault()
+    state.elementsForm.button.classList.add('disabled')
     const formData = new FormData(e.target)
     const url = formData.get('url').trim()
     if (!url) {
@@ -42,6 +43,9 @@ export const app = () => {
         state.elementsForm.input.value = ''
         view(validateUrl, data, state, url)
       })
-      .catch(err => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        state.elementsForm.button.classList.remove('disabled')
+      })
   })
 }
