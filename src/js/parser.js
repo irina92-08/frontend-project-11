@@ -1,4 +1,3 @@
-// import _ from 'lodash';
 import { errorsApp } from './errors.js'
 import i18next from 'i18next'
 
