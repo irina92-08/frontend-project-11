@@ -4,21 +4,21 @@ import i18next from 'i18next'
 
 export const parserRss = ([contents, url], state) => {
   try {
-   
     const parserDom = new DOMParser()
     const doc = parserDom.parseFromString(contents, 'text/xml')
     const parserError = doc.querySelector('parsererror')
-     console.log(doc)
+    console.log(doc)
     if (parserError) {
       console.log(parserError)
-      if(doc.body?.querySelector('parsererror')) {
+      if (doc.body?.querySelector('parsererror')) {
         console.log(1)
         throw new Error('invalidUrl')
-      } else {
+      }
+      else {
         throw new Error('notRss')
       }
     }
-    
+
     const title = doc.querySelector('channel title').textContent
     const description = doc.querySelector('channel description').textContent
     const items = Array.from(doc.querySelectorAll('item')).map((item) => {
@@ -29,8 +29,8 @@ export const parserRss = ([contents, url], state) => {
     })
     return { url, title, description, items }
   }
-  catch(e) {
+  catch (e) {
     console.log(e.message)
-      throw errorsApp(i18next.t(`errors.${e.message}`), state)
+    throw errorsApp(i18next.t(`errors.${e.message}`), state)
   }
 }

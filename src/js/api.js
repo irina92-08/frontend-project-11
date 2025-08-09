@@ -13,8 +13,8 @@ const getProxyUrl = (url) => {
 }
 
 export const getRss = (url, state) => {
-  const timeout = 10000;
-  return axios.get(getProxyUrl(url), {timeout})
+  const timeout = 10000
+  return axios.get(getProxyUrl(url), { timeout })
     .then(response => response.data.contents)
     .then(data => [data, url])
     .catch(() => {

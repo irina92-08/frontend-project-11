@@ -114,13 +114,13 @@ const startTime = (url, currentPosts) => {
           displayingNewPosts(item, 'new')
         }
       })
-     })
+    })
     .catch((err) => {
       console.log(err)
       throw errorsApp(i18next.t('errors.errorNetwork'), state)
-      })
+    })
     .finally(() => {
-       setTimeout(() => startTime(url, items), 5000)
+      setTimeout(() => startTime(url, items), 5000)
     })
 }
 const view = (validate, feed, state, urlFeed) => {
