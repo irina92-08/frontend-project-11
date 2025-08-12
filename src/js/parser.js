@@ -6,11 +6,10 @@ export const parserRss = ([contents, url], state) => {
     const parserDom = new DOMParser()
     const doc = parserDom.parseFromString(contents, 'text/xml')
     const parserError = doc.querySelector('parsererror')
-    console.log(doc)
+
     if (parserError) {
       console.log(parserError)
       if (doc.body?.querySelector('parsererror')) {
-        console.log(1)
         throw new Error('invalidUrl')
       }
       else {

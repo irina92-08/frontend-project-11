@@ -8,7 +8,7 @@ const getProxyUrl = (url) => {
     disableCache: 'true',
     url,
   })
-  console.log(`${baseUrl}?${params.toString()}`)
+
   return `${baseUrl}?${params.toString()}`
 }
 

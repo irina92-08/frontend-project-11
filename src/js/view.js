@@ -48,7 +48,7 @@ const displayingNewPosts = (item, element = null) => {
   titlePost.setAttribute('href', `${item.link}`)
   titlePost.classList.add('fw-bold')
   titlePost.textContent = `${item.titleItem}`
-  console.log(item.titleItem)
+  
   itemListPost.append(titlePost)
 
   const buttonPost = document.createElement('button')
@@ -105,27 +105,24 @@ const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
   })
 }
 const startTime = (url, currentPosts, state) => {
-let currentItems;
   getRss(url)
     .then(data => parserRss(data))
     .then(({items}) => {
-      currentItems = items;
-      return items
-    } )
-    .then((items ) => {
       items.forEach((item) => {
         const newPost = currentPosts.filter(post => post.link === item.link)
-        if (newPost.length === 0) {
-          displayingNewPosts(item, 'new')
+       if (newPost.length === 0) {
+        displayingNewPosts(item, 'new')
         }
       })
+      return items
+    })
+    .then((items) => {
+      setTimeout(() => startTime(url,items, state), 5000)
     })
     .catch((err) => {
       console.log(err)
+      setTimeout(() => startTime(url,currentPosts, state), 5000)
       throw errorsApp(i18next.t('errors.errorNetwork'), state)
-    })
-    .finally(()=> {
-      setTimeout(() => startTime(url, currentItems, state), 5000)
     })
 }
 
@@ -139,6 +136,7 @@ const view = (validate, feed, state, urlFeed) => {
       state.elementsForm.p.textContent = i18next.t('success.validUrl')
 
       displayingFeeds(state.feeds, state.elementFeeds, state.elementPosts)
+      
       startTime(urlFeed, feed.items, state)
     }
     else {
