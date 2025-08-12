@@ -101,14 +101,18 @@ const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
     itemListFeed.append(descriptionFeed)
 
     // посты
-    feed.items.forEach(item => displayingNewPosts(item),
-    )
+    feed.items.forEach(item => displayingNewPosts(item))
   })
 }
 const startTime = (url, currentPosts, state) => {
+let currentItems;
   getRss(url)
     .then(data => parserRss(data))
-    .then(({ items }) => {
+    .then(({items}) => {
+      currentItems = items;
+      return items
+    } )
+    .then((items ) => {
       items.forEach((item) => {
         const newPost = currentPosts.filter(post => post.link === item.link)
         if (newPost.length === 0) {
@@ -120,10 +124,11 @@ const startTime = (url, currentPosts, state) => {
       console.log(err)
       throw errorsApp(i18next.t('errors.errorNetwork'), state)
     })
-    .finally(({ items }) => {
-      setTimeout(() => startTime(url, items), 5000)
+    .finally(()=> {
+      setTimeout(() => startTime(url, currentItems, state), 5000)
     })
 }
+
 const view = (validate, feed, state, urlFeed) => {
   state.elementsForm.button.classList.remove('disabled')
   const watchedState = onChange(state, (path, value) => {
