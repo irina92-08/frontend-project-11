@@ -1,8 +1,6 @@
 import onChange from 'on-change'
 import i18next from 'i18next'
-import { getRss } from './api.js'
-import { parserRss } from './parser.js'
-import { errorsApp } from './errors.js'
+import { startTime } from './api'
 
 const modalOpen = (element) => {
   console.log(element)
@@ -48,7 +46,7 @@ const displayingNewPosts = (item, element = null) => {
   titlePost.setAttribute('href', `${item.link}`)
   titlePost.classList.add('fw-bold')
   titlePost.textContent = `${item.titleItem}`
-  
+
   itemListPost.append(titlePost)
 
   const buttonPost = document.createElement('button')
@@ -104,29 +102,9 @@ const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
     feed.items.forEach(item => displayingNewPosts(item))
   })
 }
-const startTime = (url, currentPosts, state) => {
-  getRss(url)
-    .then(data => parserRss(data))
-    .then(({items}) => {
-      items.forEach((item) => {
-        const newPost = currentPosts.filter(post => post.link === item.link)
-       if (newPost.length === 0) {
-        displayingNewPosts(item, 'new')
-        }
-      })
-      return items
-    })
-    .then((items) => {
-      setTimeout(() => startTime(url,items, state), 5000)
-    })
-    .catch((err) => {
-      console.log(err)
-      setTimeout(() => startTime(url,currentPosts, state), 5000)
-      throw errorsApp(i18next.t('errors.errorNetwork'), state)
-    })
-}
 
 const view = (validate, feed, state, urlFeed) => {
+  console.log(feed)
   state.elementsForm.button.classList.remove('disabled')
   const watchedState = onChange(state, (path, value) => {
     if (value) {
@@ -134,27 +112,20 @@ const view = (validate, feed, state, urlFeed) => {
       state.elementsForm.p.classList.remove('text-danger')
       state.elementsForm.p.classList.add('text-success')
       state.elementsForm.p.textContent = i18next.t('success.validUrl')
-
       displayingFeeds(state.feeds, state.elementFeeds, state.elementPosts)
-      
-      startTime(urlFeed, feed.items, state)
+      startTime(urlFeed, feed.items, state, displayingNewPosts)
     }
     else {
       state.elementsForm.input.classList.add('is-invalid')
       state.elementsForm.p.classList.add('text-danger')
-
       state.elementsForm.p.classList.remove('text-success')
     }
   })
 
   const url = feed.url
   const currentFeed = state.feeds.map(feed => feed.url)
-  validate(url, currentFeed)
-    .then(() => {
-      console.log('ok')
-      watchedState.feeds.push(feed)
-      watchedState.statevalid = true
-    })
+  validate(url, currentFeed, feed)
+    .then(() => watchedState.statevalid = true)
     .catch((err) => {
       watchedState.statevalid = false
       if (err.message === i18next.t('errors.urlExists')) {
@@ -164,5 +135,20 @@ const view = (validate, feed, state, urlFeed) => {
         state.elementsForm.p.textContent = i18next.t('errors.invalidUrl')
       }
     })
+//   validate(url, currentFeed)
+//     .then(() => {
+//       console.log('ok')
+//       state.feeds.push(feed)
+//       watchedState.statevalid = true
+//     })
+//     .catch((err) => {
+//       watchedState.statevalid = false
+//       if (err.message === i18next.t('errors.urlExists')) {
+//         state.elementsForm.p.textContent = err.message
+//       }
+//       else {
+//         state.elementsForm.p.textContent = i18next.t('errors.invalidUrl')
+//       }
+//     })
 }
 export default view

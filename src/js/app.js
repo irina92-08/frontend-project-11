@@ -6,13 +6,6 @@ import { getRss } from './api.js'
 import { errorsApp } from './errors.js'
 
 export const app = () => {
-  const validateUrl = (url, feeds) => {
-    const schema = yup.string()
-      .url()
-      .notOneOf(feeds, () => i18next.t('errors.urlExists'))
-    return schema.validate(url)
-  }
-
   const state = {
     elementsForm: {
       form: document.querySelector('form'),
@@ -25,6 +18,20 @@ export const app = () => {
     stateValid: true,
 
     feeds: [],
+  }
+
+  const validateUrl = (url, feeds, feed) => {
+    const schema = yup.string()
+      .url()
+      .notOneOf(feeds, () => i18next.t('errors.urlExists'))
+    return schema.validate(url)
+      .then(() => {
+        state.feeds.push(feed)
+      })
+      .catch((err) => {
+        console.log(err)
+        throw new Error(err)
+      })
   }
 
   state.elementsForm.form.addEventListener('submit', (e) => {
