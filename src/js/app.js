@@ -28,10 +28,6 @@ export const app = () => {
       .then(() => {
         state.feeds.push(feed)
       })
-      .catch((err) => {
-        console.log(err)
-        throw new Error(err)
-      })
   }
 
   state.elementsForm.form.addEventListener('submit', (e) => {
