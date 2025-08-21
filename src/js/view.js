@@ -2,7 +2,7 @@ import onChange from 'on-change'
 import i18next from 'i18next'
 import { startTime } from './api'
 
-const modalOpen = (element) => {
+const modalOpen = ([element]) => {
   console.log(element)
   const body = document.querySelector('body')
   const modal = document.querySelector('#modal')
@@ -53,12 +53,6 @@ const displayingNewPosts = (item, element = null) => {
   buttonPost.classList.add('btn', 'btn-outline-primary', 'btn-sm')
   buttonPost.textContent = i18next.t('buttons.buttonPost')
   itemListPost.append(buttonPost)
-
-  buttonPost.addEventListener('click', () => {
-    titlePost.classList.remove('fw-bold')
-    titlePost.classList.add('fw-normal', 'link-secondary')
-    modalOpen(item)
-  })
 }
 
 const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
@@ -104,7 +98,6 @@ const displayingFeeds = (feeds, elementFeeds, elementPosts) => {
 }
 
 const view = (validate, feed, state, urlFeed) => {
-  console.log(feed)
   state.elementsForm.button.classList.remove('disabled')
   const watchedState = onChange(state, (path, value) => {
     if (value) {
@@ -135,20 +128,21 @@ const view = (validate, feed, state, urlFeed) => {
         state.elementsForm.p.textContent = i18next.t('errors.invalidUrl')
       }
     })
-//   validate(url, currentFeed)
-//     .then(() => {
-//       console.log('ok')
-//       state.feeds.push(feed)
-//       watchedState.statevalid = true
-//     })
-//     .catch((err) => {
-//       watchedState.statevalid = false
-//       if (err.message === i18next.t('errors.urlExists')) {
-//         state.elementsForm.p.textContent = err.message
-//       }
-//       else {
-//         state.elementsForm.p.textContent = i18next.t('errors.invalidUrl')
-//       }
-//     })
+
+  const posts = document.querySelector('.posts')
+  posts.addEventListener('click', (e) => {
+    const currentButton = e.target
+    const currentList = currentButton.parentNode
+    const currentA = currentList.firstChild
+    const hrefPost = currentA.getAttribute('href')
+
+    currentA.classList.remove('fw-bold')
+    currentA.classList.add('fw-normal', 'link-secondary')
+
+    state.feeds.forEach((feed) => {
+      const currentPost = feed.items.filter(item => item.link === hrefPost)
+      modalOpen(currentPost)
+    })
+  })
 }
 export default view
